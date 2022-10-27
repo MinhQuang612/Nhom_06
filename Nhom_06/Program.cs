@@ -1,7 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Nhom_06.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDbContext<EshopContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("Eshop")));
 
 var app = builder.Build();
 
