@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nhom_06.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,12 +15,13 @@ namespace Eshop.Models
         [Required(ErrorMessage = "{0} không được bỏ trống")]
         public string SKU { get; set; }
 
-        [DisplayName("Tên sản phẩm")]
-        [Required(ErrorMessage = "{0} không được bỏ trống")]
-        public string Name { get; set; }
+      
+       
 
         [DisplayName("Mô tả")]
         public string Description { get; set; }
+
+        public string Size { get; set; }
 
         [DisplayName("Giá (VNĐ)")]
         [DisplayFormat(DataFormatString = "{0:n0}")]
@@ -32,6 +34,7 @@ namespace Eshop.Models
 
         public int ProductTypeId { get; set; }
 
+        public string ProductModelID { get; set; }
         // Navigation reference property cho khóa ngoại đến ProductType
         [DisplayName("Loại sản phẩm")]
         public ProductType ProductType { get; set; }
@@ -39,8 +42,7 @@ namespace Eshop.Models
         [DisplayName("Ảnh minh họa")]
         public string Image { get; set; }
 
-        [DisplayName("Kích thước sản phẩm")]
-        public string Size { get; set; }
+      
 
         [DisplayName("Còn hàng")]
         [DefaultValue(true)]
@@ -51,5 +53,7 @@ namespace Eshop.Models
 
         // Collection reference property cho khóa ngoại từ InvoiceDetail
         public List<InvoiceDetail> InvoiceDetails { get; set; }
+
+        public List<ProductModel> ProductModels { get; set; }
     }
 }

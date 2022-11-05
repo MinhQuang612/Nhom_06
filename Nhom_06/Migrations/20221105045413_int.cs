@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Nhom_06.Migrations
 {
-    public partial class In : Migration
+    public partial class @int : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,13 +73,13 @@ namespace Nhom_06.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SKU = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Size = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<int>(type: "int", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
                     ProductTypeId = table.Column<int>(type: "int", nullable: false),
+                    ProductModelID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Size = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<bool>(type: "bit", nullable: false),
                     ReviewId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -152,6 +152,25 @@ namespace Nhom_06.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductModel", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ProductModel_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InvoiceDetails",
                 columns: table => new
                 {
@@ -210,6 +229,11 @@ namespace Nhom_06.Migrations
                 column: "AccountId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductModel_ProductId",
+                table: "ProductModel",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Products_ProductTypeId",
                 table: "Products",
                 column: "ProductTypeId");
@@ -227,6 +251,9 @@ namespace Nhom_06.Migrations
 
             migrationBuilder.DropTable(
                 name: "InvoiceDetails");
+
+            migrationBuilder.DropTable(
+                name: "ProductModel");
 
             migrationBuilder.DropTable(
                 name: "Invoices");

@@ -12,8 +12,8 @@ using Nhom_06.Data;
 namespace Nhom_06.Migrations
 {
     [DbContext(typeof(EshopContext))]
-    [Migration("20221027090359_In")]
-    partial class In
+    [Migration("20221105045604_intt")]
+    partial class intt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -177,12 +177,11 @@ namespace Nhom_06.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Price")
                         .HasColumnType("int");
+
+                    b.Property<string>("ProductModelID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("int");
@@ -230,6 +229,28 @@ namespace Nhom_06.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ProductTypes");
+                });
+
+            modelBuilder.Entity("Nhom_06.Models.ProductModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductModel");
                 });
 
             modelBuilder.Entity("Nhom_06.Models.Review", b =>
@@ -328,6 +349,13 @@ namespace Nhom_06.Migrations
                     b.Navigation("ProductType");
                 });
 
+            modelBuilder.Entity("Nhom_06.Models.ProductModel", b =>
+                {
+                    b.HasOne("Eshop.Models.Product", null)
+                        .WithMany("ProductModels")
+                        .HasForeignKey("ProductId");
+                });
+
             modelBuilder.Entity("Eshop.Models.Account", b =>
                 {
                     b.Navigation("Carts");
@@ -345,6 +373,8 @@ namespace Nhom_06.Migrations
                     b.Navigation("Carts");
 
                     b.Navigation("InvoiceDetails");
+
+                    b.Navigation("ProductModels");
                 });
 
             modelBuilder.Entity("Eshop.Models.ProductType", b =>
